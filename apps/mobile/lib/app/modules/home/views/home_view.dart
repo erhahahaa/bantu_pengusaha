@@ -11,7 +11,6 @@ class HomeView extends StatelessWidget {
 
     final size = MediaQuery.of(context).size;
     final height = size.height;
-    final width = size.width;
     return Scaffold(
       body: FutureBuilder(
           future: controller.getData(),
@@ -27,7 +26,7 @@ class HomeView extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(200, 50, 0, 0),
                       child: Text(
-                        controller.formatDate(DateTime.now()),
+                        controller.today?.date ?? '-',
                         style: TextStyle(
                           fontSize: 16.0,
                           fontWeight: FontWeight.normal,
@@ -60,62 +59,51 @@ class HomeView extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(left: 20),
-                            child: Obx(() {
-                              return Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    controller.name.value,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                FutureBuilder(
+                                    future: controller.name,
+                                    builder: (BuildContext context,
+                                        AsyncSnapshot<String> snapshot) {
+                                      if (snapshot.connectionState ==
+                                          ConnectionState.waiting) {
+                                        return const CircularProgressIndicator();
+                                      } else {
+                                        if (snapshot.hasData) {
+                                          // print(snapshot.data);
+                                          return Text(snapshot.data!,
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.normal,
+                                                color: const Color(0xFF000000)
+                                                    .withOpacity(0.7),
+                                              ));
+                                        } else {
+                                          return Text("-",
+                                              style: TextStyle(
+                                                fontSize: 16.0,
+                                                fontWeight: FontWeight.normal,
+                                                color: const Color(0xFF000000)
+                                                    .withOpacity(0.7),
+                                              ));
+                                        }
+                                      }
+                                    }),
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: Text(
+                                    "IT Intern",
                                     style: TextStyle(
                                       fontSize: 16.0,
-                                      fontWeight: FontWeight.bold,
+                                      fontWeight: FontWeight.normal,
                                       color: const Color(0xFF000000)
                                           .withOpacity(0.7),
                                     ),
                                   ),
-                                  // FutureBuilder(
-                                  //     future: controller.name,
-                                  //     builder: (BuildContext context,
-                                  //         AsyncSnapshot<String> snapshot) {
-                                  //       if (snapshot.connectionState ==
-                                  //           ConnectionState.waiting) {
-                                  //         return CircularProgressIndicator();
-                                  //       } else {
-                                  //         if (snapshot.hasData) {
-                                  //           // print(snapshot.data);
-                                  //           return Text(snapshot.data!,
-                                  //               style: TextStyle(
-                                  //                 fontSize: 16.0,
-                                  //                 fontWeight: FontWeight.normal,
-                                  //                 color: Color(0xFF000000)
-                                  //                     .withOpacity(0.7),
-                                  //               ));
-                                  //         } else {
-                                  //           return Text("-",
-                                  //               style: TextStyle(
-                                  //                 fontSize: 16.0,
-                                  //                 fontWeight: FontWeight.normal,
-                                  //                 color: Color(0xFF000000)
-                                  //                     .withOpacity(0.7),
-                                  //               ));
-                                  //         }
-                                  //       }
-                                  //     }),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 4),
-                                    child: Text(
-                                      "IT Intern",
-                                      style: TextStyle(
-                                        fontSize: 16.0,
-                                        fontWeight: FontWeight.normal,
-                                        color: const Color(0xFF000000)
-                                            .withOpacity(0.7),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              );
-                            }),
+                                ),
+                              ],
+                            ),
                           ),
                         ],
                       ),
@@ -203,15 +191,12 @@ class HomeView extends StatelessWidget {
                                               const SizedBox(
                                                 height: 16,
                                               ),
-                                              Obx(
-                                                () => Text(
-                                                  controller.getHHmm(controller
-                                                      .today.value?.clockIn),
-                                                  style: const TextStyle(
-                                                    fontSize: 18.0,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Color(0xFF000000),
-                                                  ),
+                                              const Text(
+                                                "07:49",
+                                                style: TextStyle(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xFF000000),
                                                 ),
                                               ),
                                               const SizedBox(
@@ -276,15 +261,12 @@ class HomeView extends StatelessWidget {
                                               const SizedBox(
                                                 height: 16,
                                               ),
-                                              Obx(
-                                                () => Text(
-                                                  controller.getHHmm(controller
-                                                      .today.value?.clockOut),
-                                                  style: const TextStyle(
-                                                    fontSize: 18.0,
-                                                    fontWeight: FontWeight.w600,
-                                                    color: Color(0xFF000000),
-                                                  ),
+                                              const Text(
+                                                "18:00",
+                                                style: TextStyle(
+                                                  fontSize: 18.0,
+                                                  fontWeight: FontWeight.w600,
+                                                  color: Color(0xFF000000),
                                                 ),
                                               ),
                                               const SizedBox(

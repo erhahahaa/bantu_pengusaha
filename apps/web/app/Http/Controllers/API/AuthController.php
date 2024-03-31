@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Auth;
-use App\Models\Attendance;
 use Validator;
 use App\Models\User;
 
@@ -55,14 +54,6 @@ class AuthController extends Controller
                 'message' => 'Hi ' . $user->name . ', Welcome to Bantu Pengusaha Attendance',
                 'data' => $user
             ]);
-    }
-
-    public function me(Request $request){  
-        return response()->json([
-            'success' => true,
-            'message' => 'User data fetched successfully', 
-            'data' => Auth::user(),
-        ]);
     }
 
     // method for user logout and delete token
